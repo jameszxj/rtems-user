@@ -7,20 +7,24 @@ Introduction
 
 .. _Overview:
 
-Overview
+概述
 ========
 
 You are someone looking for a real-time operating system.  This document
+如果你正在评估一个实时操作系统，这篇文档提供了以下内容：
 
 - presents the basic features of RTEMS, so that you can decide if it is worth to
   look at,
+- 介绍了RTEMS的基本特性,以便于进一步评估；
 
 - gives you a :ref:`quick start <QuickStart>` to install all the tools
   necessary to work with RTEMS, and
+- 提供了RTEMS所需工具安装的:ref:`快速入门 <QuickStart>`
 
 - helps you to build an example application on top of RTEMS.
+- 帮助你建立RTEMS应用例程
 
-Features
+特点
 ========
 
 The Real-Time Executive for Multiprocessor Systems (:ref:term:`RTEMS`) is a
@@ -37,6 +41,7 @@ build RTEMS applications is available as open source software.  This makes you
 completely vendor independent.
 
 RTEMS provides the following basic feature set:
+RTEMS提供了以下基本特性：
 
 - :ref:term:`APIs <API>`
 
