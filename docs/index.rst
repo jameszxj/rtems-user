@@ -33,6 +33,7 @@ RTEMS User Manual (|version|).
     :numbered:
 
     mkubifs.md
+    update说明.md
     overview/index
     start/index
     support/index
