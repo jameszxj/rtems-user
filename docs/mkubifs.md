@@ -18,11 +18,11 @@ mkfs.ubifs -r rootfs -m 2048 -e 126976 -c 1979 -o rootfs.ubifs
 ubinize  -o rootfs.img -m 2048 -p 128KiB -s 512 -O 2048 ubinize.cfg
 ```
 ubifnize.cfg文件内容如下：
->[ubifs]
->mode=ubi
->image=rootfs.ubifs
->vol_id=0
->vol_size=230MiB
->vol_type=dynamic
->vol_name=rootfs
->vol_flags=autoresize
+>[ubifs]  
+>mode=ubi  
+>image=rootfs.ubifs  
+>vol_id=0  
+>vol_size=230MiB  
+>vol_type=dynamic  
+>vol_name=rootfs  
+>vol_flags=autoresize  
