@@ -19,7 +19,7 @@ You are someone looking for a real-time operating system.  This document
 
 - gives you a :ref:`quick start <QuickStart>` to install all the tools
   necessary to work with RTEMS, and
-- 提供了RTEMS所需工具安装的:ref:`快速入门 <QuickStart>`
+- 提供了建立RTEMS开发环境的:ref:`<QuickStart>`快速入门
 
 - helps you to build an example application on top of RTEMS.
 - 帮助你建立RTEMS应用例程

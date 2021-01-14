@@ -32,6 +32,7 @@ RTEMS User Manual (|version|).
     :maxdepth: 5
     :numbered:
 
+    mkubifs.md
     overview/index
     start/index
     support/index
