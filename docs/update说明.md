@@ -73,7 +73,7 @@ int ads111x_read(void);
 
 ### 6.2 引导过程
 
-![image-20201012204559600](C:\Users\ZXJ\Documents\markdown\update说明.assets\image-20201012204559600.png)
+![image-20201012204559600](./update说明.assets/image-20201012204559600.png)
 
 ### 6.3 升级过程
 
