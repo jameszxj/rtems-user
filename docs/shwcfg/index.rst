@@ -2,194 +2,80 @@
 
 .. Copyright (C) 2016 Chris Johns <chrisj@rtems.org>
 
-Introduction
+软硬件配置文件
 ************
 
 .. _Overview:
+软硬件配置文件头带32字节，定义如下：
 
-概述
++--------------+------------+--------------+
+|字节位置      |  字节个数  |含义          |
++==============+============+==============+
+|0             |1           |0x16          |
++--------------+------------+--------------+
+|1             |1           |0x45          |
++--------------+------------+--------------+
+|2             |1           |0x43          |
++--------------+------------+--------------+
+|3~7           |5           |保留          |
++--------------+------------+--------------+
+|8             |4           |CRC           |
++--------------+------------+--------------+
+|16~23         |8           |保留          |
++--------------+------------+--------------+
+|24            |1           |保护型号      |
++--------------+------------+--------------+
+|25            |1           |保护基础类型  |
++--------------+------------+--------------+
+|26~27         |2           |版本1.00      |
++--------------+------------+--------------+
+|28~31         |4           |xml长度       |
++--------------+------------+--------------+
+
+硬件配置
 ========
+.. code-block:: xml
+
+  <Y req="采样点" ent="环境类型" par="单/双CPU" dev="装置名称" fpga="" md="实验型号—正常为空" ad="1" cpu="cpu选择情况" port="各CPU端口定义" ptype="端口类型" yjv="硬件版本">
+
+CPU取值为：各CPU按板卡号从低位排至高位，选择则置1，否则置0形成的10进制数。
+
+参数定义如下：
+
++--------------------------------------+
+|          belong 模件属性             |
++==============+=======================+
+|类型码        |说明                   |
++--------------+-----------------------+
+|0             |本机                   |
++--------------+-----------------------+
+|1             |级联                   |
++--------------+-----------------------+
+|2             |对时精度测量模件       |
++--------------+-----------------------+
+
++--------------------------------------+
+|         par 装置配置参数             |
++==============+=======================+
+|类型码        |说明                   |
++--------------+-----------------------+
+|0             |双CPU配置              |
++--------------+-----------------------+
+|1             |单CPU配置              |
++--------------+-----------------------+
+
++--------------------------------------+
+|          ad 装置配置参数             |
++==============+=======================+
+|类型码        |说明                   |
++--------------+-----------------------+
+|0             |单AD配置               |
++--------------+-----------------------+
+|1             |双AD配置               |
++--------------+-----------------------+
 
-You are someone looking for a real-time operating system.  This document
-如果你正在评估一个实时操作系统，这篇文档提供了以下内容：
 
-- presents the basic features of RTEMS, so that you can decide if it is worth to
-  look at,
-- 介绍了RTEMS的基本特性,以便于进一步评估；
 
-- gives you a :ref:`quick start <QuickStart>` to install all the tools
-  necessary to work with RTEMS, and
-- 提供了建立RTEMS开发环境的:ref:`<QuickStart>`快速入门
-
-- helps you to build an example application on top of RTEMS.
-- 帮助你建立RTEMS应用例程
-
-特点
-========
-
-The Real-Time Executive for Multiprocessor Systems (:ref:term:`RTEMS`) is a
-multi-threaded, single address-space, real-time operating system with no
-kernel-space/user-space separation.  It is capable to operate in an
-:ref:term:`SMP` configuration providing a state of the art feature set.
-
-RTEMS is licensed under a
-`modified GPL 2.0 or later license with an exception for static linking <https://git.rtems.org/rtems/tree/LICENSE>`_
-[#]_.  It exposes no license requirements on application code.  The third-party
-software used and distributed by RTEMS which may be linked to the application
-is licensed under permissive open source licenses.  Everything necessary to
-build RTEMS applications is available as open source software.  This makes you
-completely vendor independent.
-
-RTEMS provides the following basic feature set:
-RTEMS提供了以下基本特性：
-
-- :ref:term:`APIs <API>`
-
-    - :ref:term:`POSIX` with
-      `pthreads <http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/pthread.h.html>`_
-      (enables a broad range of standard software to run on RTEMS)
-
-    - `Classic <https://docs.rtems.org/branches/master/c-user.pdf>`_
-
-    - :ref:term:`C11` (including
-      `thread <https://en.cppreference.com/w/c/thread>`_ support)
-
-    - :ref:term:`C++11` (including
-      `thread <https://en.cppreference.com/w/cpp/thread>`_ support)
-
-    - Newlib and :ref:term:`GCC` internal
-
-- Programming languages
-
-    - C/C++/OpenMP (RTEMS Source Builder, RSB)
-
-    - Ada (RSB, ``--with-ada``)
-
-    - Erlang
-
-    - Fortran (RSB, ``--with-fortran``)
-
-    - Python and MicroPython
-
-- Parallel languages
-
-    - :ref:term:`EMB²`
-
-    - Google Go [#]_
-
-    - :ref:term:`OpenMP` 4.5
-
-- Thread synchronization and communication
-
-    - Mutexes with and without locking protocols
-
-    - Counting semaphores
-
-    - Binary semaphores
-
-    - Condition variables
-
-    - Events
-
-    - Message queues
-
-    - Barriers
-
-    - :ref:term:`Futex` (used by :ref:term:`OpenMP` barriers)
-
-    - Epoch Based Reclamation (libbsd)
-
-- Locking protocols
-
-    - Transitive Priority Inheritance
-
-    - :ref:term:`OMIP` (SMP feature)
-
-    - Priority Ceiling
-
-    - :ref:term:`MrsP` (SMP feature)
-
-- Scalable timer and timeout support
-
-- Lock-free timestamps (FreeBSD timecounters)
-
-- Responsive interrupt management
-
-- C11/C++11 :ref:term:`TLS` [#]_
-
-- Link-time configurable schedulers
-
-    - Fixed-priority
-
-    - Job-level fixed-priority (:ref:term:`EDF`)
-
-    - Constant Bandwidth Server (experimental)
-
-- Clustered scheduling (SMP feature)
-
-    - Flexible link-time configuration
-
-    - Job-level fixed-priority scheduler (:ref:term:`EDF`) with support for
-      one-to-one and one-to-all thread to processor affinities (default SMP
-      scheduler)
-
-    - Fixed-priority scheduler
-
-    - Proof-of-concept strong :ref:term:`APA` scheduler
-
-- Focus on link-time application-specific configuration
-
-- Linker-set based initialization (similar to global C++ constructors)
-
-- Operating system uses fine-grained locking (SMP feature)
-
-- Dynamic memory allocators
-
-    - First-fit (default)
-
-    - Universal Memory Allocator
-      (`UMA <https://www.freebsd.org/cgi/man.cgi?query=uma&sektion=9>`_ ,
-      libbsd)
-
-- File systems
-
-    - :ref:term:`IMFS`
-
-    - :ref:term:`FAT`
-
-    - :ref:term:`RFS`
-
-    - :ref:term:`NFSv2`
-
-    - :ref:term:`JFFS2` (NOR flashes)
-
-    - :ref:term:`YAFFS2` (NAND flashes, GPL or commercial license required)
-
-- Device drivers
-
-    - Termios (serial interfaces)
-
-    - I2C (Linux user-space API compatible)
-
-    - SPI (Linux user-space API compatible)
-
-    - Network stacks (legacy, libbsd, lwIP)
-
-    - USB stack (libbsd)
-
-    - SD/MMC card stack (libbsd)
-
-    - Framebuffer (Linux user-space API compatible, Qt)
-
-    - Application runs in kernel-space and can access hardware directly
-
-- libbsd
-
-    - Port of FreeBSD user-space and kernel-space components to RTEMS
-
-    - Easy access to FreeBSD software for RTEMS
-
-    - Support to stay in synchronization with FreeBSD
 
 .. _ecosystem:
 

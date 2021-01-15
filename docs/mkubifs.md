@@ -1,28 +1,71 @@
-# 制作UBIFS镜像
+# 软硬件配置文件
 
-标签： Linux
+软硬件配置文件头带32字节，定义如下：
 
-利用NFS rootfs启动目标机，然后进行Flash的格式化并创建UBI卷，这种方法操作非常繁琐
+| 字节位置 | 字节个数 | 含义         |
+| -------- | -------- | ------------ |
+| 0        | 1        | 0x16         |
+| 1        | 1        | 0x45         |
+| 2        | 1        | 0x43         |
+| 3-7      | 5        | 保留         |
+| 8        | 4        | CRC          |
+| 16-23    | 8        | 保留         |
+| 24       | 1        | 保护型号     |
+| 25       | 1        | 保护基础类型 |
+| 26-27    | 2        | 版本1.00     |
+| 28-31    | 3        | Xml长度      |
 
-直接创建可直接写入Flash的根文件系统镜像，利用barebox或者uboot直接写入，这种方法简单快捷。
-1.首先建立文件系统镜像（文件系统目录为roofs）
-```shell
-mkfs.ubifs -r rootfs -m 2048 -e 126976 -c 1979 -o rootfs.ubifs
+其它部分为XML文本，整体定义如下说明。
+
+## 硬件配置
+
+```xml
+<Y req="采样点" ent="环境类型" par="单/双CPU" dev="装置名称" fpga="" md="实验型号—正常为空" ad="1" cpu="cpu选择情况" port="各CPU端口定义" ptype="端口类型" yjv="硬件版本">
 ```
--o指定了输出的镜像名为rootfs.ubifs，-m参数指定了最小的I/O操作的大小，也就是NAND FLASH一个page的大小，-e参数指定了逻辑擦除快的大小，-c指定了最大的逻辑块号。
 
-通过此命令制作的出的UBIFS文件系统镜像可在u-boot下使用ubi write命令烧写到NAND FLASH上。
+CPU取值为：各CPU按板卡号从低位排至高位，选择则置1，否则置0形成的10进制数。
 
-2.使用ubinize命令可将使用mkfs.ubifs命令制作的UBIFS文件系统镜像转换成可直接在FLASH上烧写的格式
-```shell
-ubinize  -o rootfs.img -m 2048 -p 128KiB -s 512 -O 2048 ubinize.cfg
-```
-ubifnize.cfg文件内容如下：
->[ubifs]  
->mode=ubi  
->image=rootfs.ubifs  
->vol_id=0  
->vol_size=230MiB  
->vol_type=dynamic  
->vol_name=rootfs  
->vol_flags=autoresize  
+参数定义如下：
+
+<table>
+   <tr>
+      <td>belong 模件属性</td>
+   </tr>
+   <tr>
+      <td>类型码</td>
+      <td>说明</td>
+   </tr>
+   <tr>
+      <td>0</td>
+      <td>本机</td>
+   </tr>
+   <tr>
+      <td>1</td>
+      <td>级联</td>
+   </tr>
+   <tr>
+      <td>2</td>
+      <td>对时精度测量模件</td>
+   </tr>
+   <tr>
+      <td></td>
+   </tr>
+</table>
+
+|        | **belong 模件属性** |
+| ------ | ------------------- |
+| 类型码 | 说明                |
+| 0      | 本机                |
+| 1      | 级联                |
+| 2      | 对时精度测量模件    |
+
+
+
+| 属性名 | 含义 | 常用属性值 |
+|-----|-----|------|
+| border | 设置表格的边框（默认border="0"无边框）  | 像素值 |
+| cellspacing | 设置单元格与单元格边框之间的空白间距   | 像素值（默认2像素）|
+| cellpadding| 设置单元格内容与单元格边框之间的空白间距   | 像素值（默认1像素）|
+| width | 设置表格的宽度   | 像素值|
+| height | 设置表格的高度   | 像素值|
+| align | 设置表格在网页中的水平对齐方式   | left、right、center|
