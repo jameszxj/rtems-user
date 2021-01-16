@@ -5,38 +5,18 @@
 .. highlight:: c
 
 ==============================
-RTEMS User Manual (|version|).
+SSA-PLT User Manual (|version|).
 ==============================
 
 .. topic:: Copyrights and License
 
     | |copy| 2021 IESLab
 
-    .. include:: ../common/license.rst
-
-.. include:: ../common/header.rst
-
 .. toctree::
     :maxdepth: 5
     :numbered:
 
-    shwcfg/index
-    start/index
-    support/index
-    hosts/index
-    installation/index
+    config/shwcfg_file
+    config/logic_file
+    config/saddr
 
-    hardware/index
-    bld/index
-    bsps/index
-
-    exe/index
-    testing/index
-    tracing/index
-
-    migration/index
-
-    tools/index
-    rsb/index
-
-    glossary/index
